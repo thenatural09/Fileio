@@ -37,7 +37,7 @@ public class Main {
     }
 
     static void saveGame() throws Exception {
-        Game game = null;
+        Game game = new Game();
         JsonSerializer serializer = new JsonSerializer();
         String json = serializer.deep(true).serialize(game);
         File f = new File("main.json");
@@ -47,7 +47,6 @@ public class Main {
     }
 
     static void loadGame() throws Exception {
-        Game game;
         File f = new File("main.json");
         FileReader fr = null;
         fr = new FileReader(f);
@@ -55,6 +54,6 @@ public class Main {
         char[] contents = new char[fileSize];
         fr.read(contents, 0, fileSize);
         JsonParser parser = new JsonParser();
-        game = parser.parse(contents, Game.class);
+        Game game = parser.parse(contents, Game.class);
     }
 }

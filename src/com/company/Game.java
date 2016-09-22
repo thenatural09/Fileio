@@ -10,6 +10,10 @@ public class Game {
     int yearRelease;
     String genre;
 
+    public Game () {
+
+    }
+
     public Game(String name, String developer, String type, int yearRelease, String genre) {
         this.name = name;
         this.developer = developer;
