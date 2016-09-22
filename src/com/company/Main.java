@@ -3,57 +3,80 @@ package com.company;
 import jodd.json.JsonParser;
 import jodd.json.JsonSerializer;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-
+    static Scanner scanner = new Scanner(System.in);
+    static Game game = new Game();
+    static final String FILE_NAME = "newgame.json";
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        ArrayList<Game> games = new ArrayList<>();
-        System.out.println("Enter name of game");
-        String gameName = scanner.nextLine();
-        System.out.println("Enter developer of game");
-        String gameDevloper = scanner.nextLine();
-        System.out.println("Enter type of game");
-        String gameType = scanner.nextLine();
-        System.out.println("Enter year game was released");
-        int gameYear = Integer.valueOf(scanner.nextLine());
-        System.out.println("Enter game genre");
-        String gameGenre = scanner.nextLine();
+        loadGame();
+        System.out.println("In order to save or load game type /save or /load");
 
-        Game game = new Game(gameName,gameDevloper,gameType,gameYear,gameGenre);
-        games.add(game);
+        boolean keepRunning = true;
+        while (keepRunning) {
+            game.chooseName();
+            game.chooseDeveloper();
+            game.chooseType();
+            game.chooseYear();
+            game.chooseGenre();
+        }
+    }
+
+    static String customLine() {
+        String line = scanner.nextLine();
+        while (line.startsWith("/")) {
+            switch (line) {
+                case "/save":
+                    saveGame();
+                    break;
+                case "/load":
+                    loadGame();
+                    break;
+                default:
+                    System.out.println("Invalid Command");
+            }
+            line = scanner.nextLine();
+        }
+        return line;
+    }
 
 //        for (int i = 0; i < games.size(); i++) {
 //            Game game1 = games.get(i);
 //            System.out.printf();
 //        }
 
-    }
 
-    static void saveGame() throws Exception {
-        Game game = new Game();
+
+    static void saveGame() {
         JsonSerializer serializer = new JsonSerializer();
         String json = serializer.deep(true).serialize(game);
-        File f = new File("main.json");
-        FileWriter fw = new FileWriter(f);
-        fw.write(json);
-        fw.close();
+        File f = new File(FILE_NAME);
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(f);
+            fw.write(json);
+            fw.close();
+        } catch (Exception e) {
+            System.out.println("Cannot save");
+        }
     }
 
-    static void loadGame() throws Exception {
-        File f = new File("main.json");
-        FileReader fr = null;
-        fr = new FileReader(f);
-        int fileSize = (int) f.length();
-        char[] contents = new char[fileSize];
-        fr.read(contents, 0, fileSize);
-        JsonParser parser = new JsonParser();
-        Game game = parser.parse(contents, Game.class);
+    static void loadGame() {
+        File f = new File(FILE_NAME);
+        FileReader fr;
+        try {
+            fr = new FileReader(f);
+            int fileSize = (int) f.length();
+            char[] contents = new char[fileSize];
+            fr.read(contents, 0, fileSize);
+            JsonParser parser = new JsonParser();
+            game = parser.parse(contents, Game.class);
+        } catch (Exception e) {
+            System.out.println("Cannot load");
+        }
+        System.out.println(game);
     }
 }
