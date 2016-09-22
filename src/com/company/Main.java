@@ -74,11 +74,13 @@ public class Main {
             fr.read(contents, 0, fileSize);
             JsonParser parser = new JsonParser();
             game = parser.parse(contents, Game.class);
-        } catch (Exception e) {
+        } catch(Exception e) {
             System.out.println("Cannot load");
         }
         System.out.printf("Game name: %s\n",game.name);
-        System.out.println("Game developer: %s\n",game.developer);
-
+        System.out.printf("Game developer: %s\n",game.developer);
+        System.out.printf("Game type: %s\n",game.type);
+        System.out.printf("Game year release: %s\n",game.yearRelease);
+        System.out.printf("Game genre: %s\n",game.genre);
     }
 }
