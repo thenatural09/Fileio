@@ -77,6 +77,8 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Cannot load");
         }
-        System.out.println(game);
+        System.out.printf("Game name: %s\n",game.name);
+        System.out.println("Game developer: %s\n",game.developer);
+
     }
 }
