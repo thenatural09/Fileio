@@ -43,13 +43,6 @@ public class Main {
         return line;
     }
 
-//        for (int i = 0; i < games.size(); i++) {
-//            Game game1 = games.get(i);
-//            System.out.printf();
-//        }
-
-
-
     static void saveGame() {
         JsonSerializer serializer = new JsonSerializer();
         String json = serializer.deep(true).serialize(game);
